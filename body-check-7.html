@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Body Check 7 – Test sức khỏe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: light dark;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f5f5f7;
+      color: #111827;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #ffffff;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .back-btn {
+      border: none;
+      background: transparent;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px 8px 4px 0;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px 20px 24px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 4px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .card-body {
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .disclaimer {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-text {
+      width: 100%;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-primary:disabled {
+      background: #9ca3af;
+      cursor: default;
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 1px solid #d1d5db;
+      color: #111827;
+    }
+
+    .btn-text {
+      background: transparent;
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .btn-row .btn-primary,
+    .btn-row .btn-secondary {
+      width: 50%;
+      margin-top: 0;
+    }
+
+    .bullet {
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #374151;
+    }
+
+    .progress-container {
+      margin-bottom: 12px;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0;
+      background: #2563eb;
+      transition: width 0.2s ease-out;
+    }
+
+    .question-text {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .likert-label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .option-row input {
+      transform: scale(1.15);
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .overall-score {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 4px 0;
+    }
+
+    .overall-label {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .overall-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .overall-message {
+      font-size: 14px;
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .group-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .group-score {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .chip.good {
+      background: #ecfdf5;
+      color: #15803d;
+    }
+
+    .chip.medium {
+      background: #fffbeb;
+      color: #b45309;
+    }
+
+    .chip.low {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.95);
+      color: #f9fafb;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header id="app-header">
+    <button class="back-btn" id="back-btn" style="display:none;">‹</button>
+    <h1 id="header-title">Body Check 7</h1>
+  </header>
+
+  <main>
+    <!-- INTRO SCREEN -->
+    <section id="screen-intro">
+      <h2>Body Check 7</h2>
+      <p class="subtitle">Bài test sức khỏe 3 phút – dựa trên 7 dấu hiệu sinh học quan trọng.</p>
+
+      <p class="bullet">• 14 câu hỏi trắc nghiệm dễ hiểu</p>
+      <p class="bullet">• Không cần nhập thông tin cá nhân</p>
+      <p class="bullet">• Kết quả phân tích chi tiết theo từng nhóm</p>
+
+      <div class="disclaimer">
+        ⚠️ Bài test chỉ mang tính tham khảo, không thay thế tư vấn y khoa hoặc chẩn đoán bệnh lý.
+      </div>
+
+      <button class="btn-primary" id="btn-start-quiz">BẮT ĐẦU BÀI TEST</button>
+      <button class="btn-text" id="btn-view-signs">Xem 7 dấu hiệu sức khỏe →</button>
+    </section>
+
+    <!-- 7 SIGNS SCREEN -->
+    <section id="screen-signs" style="display:none;">
+      <h2>7 dấu hiệu sức khỏe</h2>
+      <p class="subtitle">
+        7 nhóm chỉ số mà bài test sẽ đánh giá. Đọc nhanh để hiểu mình đang “check” điều gì.
+      </p>
+
+      <div class="card">
+        <div class="card-title">1. Năng lượng ổn định cả ngày</div>
+        <div class="card-body">
+          Không uể oải buổi sáng, không đuối sức buổi chiều. Đây là dấu hiệu chuyển hóa tốt,
+          insulin ổn định và tuyến thượng thận khỏe.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. Ngủ nhanh – ngủ sâu – dậy tỉnh táo</div>
+        <div class="card-body">
+          Ngủ ngon là “xét nghiệm miễn phí” cho sức khỏe. Dễ ngủ, không trằn trọc, không thức giữa đêm
+          là dấu hiệu thần kinh, nội tiết và nhịp sinh học đang điều hòa tốt.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">3. Cân nặng ổn định, vòng eo không tăng thất thường</div>
+        <div class="card-body">
+          Khi insulin, cortisol và tuyến giáp hoạt động cân bằng, cơ thể tự giữ cân nặng khỏe mạnh,
+          không tăng giảm vô lý.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">4. Da và móng hồng hào</div>
+        <div class="card-body">
+          Da sáng, móng hồng tự nhiên là dấu hiệu khí huyết tốt, tuần hoàn ổn định, hệ tiêu hoá – gan – thận hoạt động khỏe.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">5. Cảm xúc ổn định, tinh thần nhẹ nhàng</div>
+        <div class="card-body">
+          Stress mãn tính phá hormone nhanh hơn tuổi tác. Nếu bạn ít cáu gắt, ít lo âu và dễ lấy lại bình tĩnh – cơ thể
+          bạn đang ở trạng thái “an toàn sinh học”.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">6. Tiêu hóa tốt, ăn uống ngon miệng</div>
+        <div class="card-body">
+          Không đầy bụng, không táo bón, không rối loạn tiêu hóa. 70% miễn dịch nằm ở hệ tiêu hóa – nên đây là nền tảng của sức khỏe.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">7. Ít ốm vặt, hồi phục nhanh</div>
+        <div class="card-body">
+          Ít cảm vặt, hồi phục nhanh sau ốm là dấu hiệu hệ miễn dịch khỏe, cơ thể chống lại virus, vi khuẩn hiệu quả.
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-signs-start">TIẾP TỤC LÀM BÀI TEST</button>
+    </section>
+
+    <!-- QUIZ SCREEN -->
+    <section id="screen-quiz" style="display:none;">
+      <div class="progress-container">
+        <div class="progress-top">
+          <span id="progress-text">Câu 1 / 14</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+      </div>
+
+      <p class="help-text">
+        Hãy trả lời theo tình trạng 3–6 tháng gần đây của bạn.
+      </p>
+
+      <div class="question-text" id="question-text"></div>
+      <div class="likert-label">Mức độ đúng với bạn:</div>
+
+      <div class="options" id="options-container">
+        <!-- radio options will be injected here -->
+      </div>
+
+      <div class="help-text">
+        1 = Hoàn toàn không đúng · 5 = Gần như luôn luôn đúng
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" id="btn-prev">Quay lại</button>
+        <button class="btn-primary" id="btn-next">Tiếp tục</button>
+      </div>
+    </section>
+
+    <!-- RESULT SCREEN -->
+    <section id="screen-result" style="display:none;">
+      <h2>🎉 Kết quả bài test</h2>
+      <div id="overall-block">
+        <div class="overall-label">Điểm trung bình của bạn</div>
+        <div class="overall-score" id="overall-score">0.0 / 5</div>
+        <div class="overall-title" id="overall-title"></div>
+        <div class="overall-message" id="overall-message"></div>
+      </div>
+
+      <h3 style="margin-top:18px; font-size:15px;">Tóm tắt 7 nhóm chỉ số</h3>
+      <div id="groups-list"></div>
+
+      <button class="btn-primary" id="btn-view-details">XEM PHÂN TÍCH CHI TIẾT</button>
+      <button class="btn-secondary" id="btn-restart">LÀM LẠI BÀI TEST</button>
+    </section>
+
+    <!-- RESULT DETAIL SCREEN -->
+    <section id="screen-detail" style="display:none;">
+      <h2>Phân tích chi tiết</h2>
+      <p class="subtitle">
+        Mỗi nhóm tương ứng với một mảng quan trọng. Hãy xem nhóm nào là “điểm mạnh” và nhóm nào cần ưu tiên cải thiện.
+      </p>
+      <div id="detail-list"></div>
+
+      <button class="btn-secondary" id="btn-detail-back">Quay lại kết quả</button>
+      <button class="btn-text" id="btn-detail-home">Về trang chủ</button>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ---------- DATA & LOGIC ----------
+
+  const QUESTIONS = [
+    { id: 1, groupId: 1, text: "Buổi sáng sau khi ngủ dậy, tôi cảm thấy tỉnh táo, không uể oải kéo dài." },
+    { id: 2, groupId: 1, text: "Buổi chiều/tối tôi vẫn còn đủ năng lượng để làm việc, không bị tụt pin rõ rệt." },
+
+    { id: 3, groupId: 2, text: "Tôi thường dễ ngủ, không mất nhiều thời gian trằn trọc." },
+    { id: 4, groupId: 2, text: "Tôi ngủ một mạch tới sáng, ít hoặc không bị thức giấc giữa đêm và khi dậy thấy minh mẫn." },
+
+    { id: 5, groupId: 3, text: "Cân nặng của tôi tương đối ổn định, không tăng/giảm nhanh bất thường trong vài tháng qua." },
+    { id: 6, groupId: 3, text: "Vòng eo/bụng của tôi không phình to thất thường dù chế độ ăn và vận động không thay đổi quá nhiều." },
+
+    { id: 7, groupId: 4, text: "Da của tôi nhìn chung sáng/đều màu, không xỉn, không nhợt nhạt kéo dài." },
+    { id: 8, groupId: 4, text: "Móng tay/móng chân của tôi hồng hào tự nhiên, không dễ gãy, không đổi màu bất thường." },
+
+    { id: 9, groupId: 5, text: "Trong ngày, tôi ít bị cáu gắt vô cớ, không dễ bùng nổ cảm xúc vì chuyện nhỏ." },
+    { id: 10, groupId: 5, text: "Khi gặp stress, tôi tương đối dễ lấy lại bình tĩnh, không bị lo âu kéo dài." },
+
+    { id: 11, groupId: 6, text: "Tôi ít bị đầy bụng, ợ hơi, khó tiêu sau bữa ăn." },
+    { id: 12, groupId: 6, text: "Tôi đi tiêu đều đặn, không hay bị táo bón hoặc rối loạn tiêu hoá kéo dài." },
+
+    { id: 13, groupId: 7, text: "Tôi ít bị ốm vặt (cảm cúm, viêm họng, sốt nhẹ…) trong vài tháng gần đây." },
+    { id: 14, groupId: 7, text: "Khi bị mệt/cảm, cơ thể tôi thường hồi phục khá nhanh sau khi nghỉ ngơi." },
+  ];
+
+  const GROUP_NAMES = {
+    1: "Năng lượng trong ngày",
+    2: "Giấc ngủ",
+    3: "Cân nặng & vòng eo",
+    4: "Da & móng",
+    5: "Cảm xúc & tinh thần",
+    6: "Tiêu hoá",
+    7: "Miễn dịch & hồi phục",
+  };
+
+  let currentIndex = 0; // index trong mảng QUESTIONS
+  let answers = {}; // { questionId: value 1-5 }
+  let resultCache = null;
+
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+  }
+
+  function showScreen(screenId) {
+    const screens = [
+      "screen-intro",
+      "screen-signs",
+      "screen-quiz",
+      "screen-result",
+      "screen-detail",
+    ];
+    screens.forEach(id => {
+      document.getElementById(id).style.display = (id === screenId) ? "block" : "none";
+    });
+
+    // Header title + back button logic
+    const headerTitle = document.getElementById("header-title");
+    const backBtn = document.getElementById("back-btn");
+
+    if (screenId === "screen-intro") {
+      headerTitle.textContent = "Body Check 7";
+      backBtn.style.display = "none";
+    } else if (screenId === "screen-signs") {
+      headerTitle.textContent = "7 dấu hiệu";
+      backBtn.style.display = "inline-block";
+    } else if (screenId === "screen-quiz") {
+      headerTitle.textContent = "Bài test sức khỏe";
+      backBtn.style.display = "inline-block";
+    } else if (screenId === "screen-result") {
+      headerTitle.textContent = "Kết quả";
+      backBtn.style.display = "inline-block";
+    } else if (screenId === "screen-detail") {
+      headerTitle.textContent = "Chi tiết 7 nhóm";
+      backBtn.style.display = "inline-block";
+    }
+  }
+
+  function renderQuestion() {
+    const q = QUESTIONS[currentIndex];
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    const progressText = document.getElementById("progress-text");
+    const progressBar = document.getElementById("progress-bar");
+    const nextBtn = document.getElementById("btn-next");
+    const prevBtn = document.getElementById("btn-prev");
+
+    questionText.textContent = q.text;
+    progressText.textContent = `Câu ${currentIndex + 1} / ${QUESTIONS.length}`;
+
+    const percent = ((currentIndex + 1) / QUESTIONS.length) * 100;
+    progressBar.style.width = percent + "%";
+
+    optionsContainer.innerHTML = "";
+    const labels = {
+      1: "Hoàn toàn không đúng",
+      2: "Thỉnh thoảng đúng",
+      3: "Đúng khoảng 50%",
+      4: "Đúng phần lớn thời gian",
+      5: "Gần như luôn luôn đúng",
+    };
+
+    const existing = answers[q.id];
+
+    for (let value = 1; value <= 5; value++) {
+      const row = document.createElement("label");
+      row.className = "option-row";
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "answer";
+      input.value = value.toString();
+
+      if (existing === value) {
+        input.checked = true;
+      }
+
+      const span = document.createElement("span");
+      span.textContent = `${value} – ${labels[value]}`;
+
+      row.appendChild(input);
+      row.appendChild(span);
+      optionsContainer.appendChild(row);
+    }
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.textContent = (currentIndex === QUESTIONS.length - 1) ? "Xem kết quả" : "Tiếp tục";
+  }
+
+  function classifyOverall(average) {
+    const total = average * QUESTIONS.length;
+
+    if (average >= 4.3) {
+      return {
+        average,
+        total,
+        status: "excellent",
+        title: "💚 Cơ thể đang rất cân bằng",
+        message:
+          "Năng lượng, giấc ngủ, tiêu hoá và cảm xúc của bạn đang ở trạng thái khá ổn định. Đây là dấu hiệu tốt cho sức khỏe tổng thể. Hãy tiếp tục duy trì thói quen sống hiện tại và quản lý stress hiệu quả.",
+      };
+    }
+
+    if (average >= 3.5) {
+      return {
+        average,
+        total,
+        status: "good",
+        title: "💛 Sức khỏe tốt, cần tối ưu thêm",
+        message:
+          "Sức khỏe của bạn nhìn chung khá tốt, chỉ có một vài nhóm chỉ số cần được chăm chút thêm. Hãy xem kỹ phân tích từng mục để biết mình nên bắt đầu cải thiện ở đâu.",
+      };
+    }
+
+    if (average >= 2.5) {
+      return {
+        average,
+        total,
+        status: "warning",
+        title: "🧡 Cơ thể đang cần bạn chú ý hơn",
+        message:
+          "Cơ thể đang gửi cho bạn vài tín hiệu cảnh báo nhẹ: có thể là mệt mỏi, ngủ không sâu, tiêu hoá hoặc cảm xúc chưa ổn định. Bạn nên ưu tiên nghỉ ngơi, ăn uống lành mạnh hơn và theo dõi kỹ sự thay đổi.",
+      };
+    }
+
+    return {
+      average,
+      total,
+      status: "critical",
+      title: "❤️‍🩹 Nên ưu tiên chăm sóc sức khỏe ngay",
+      message:
+        "Nhiều chỉ số sức khỏe của bạn đang ở mức thấp. Đây là thời điểm nên nghiêm túc sắp xếp lại lối sống và cân nhắc trao đổi với bác sĩ hoặc chuyên gia sức khỏe để được tư vấn cụ thể.",
+    };
+  }
+
+  function classifyGroupAverage(avg) {
+    if (avg >= 4) return { status: "good", statusLabel: "Tốt" };
+    if (avg >= 3) return { status: "medium", statusLabel: "Cần chú ý" };
+    return { status: "low", statusLabel: "Ưu tiên cải thiện" };
+  }
+
+  function getGroupMessage(groupId, avg) {
+    switch (groupId) {
+      case 1: // Năng lượng
+        if (avg >= 4) {
+          return "Năng lượng của bạn khá ổn định trong ngày. Bạn không bị ‘tụt pin’ quá mạnh vào buổi chiều, và buổi sáng thường không quá uể oải. Đây là dấu hiệu tốt cho chuyển hóa, đường huyết và tuyến thượng thận.";
+        }
+        if (avg >= 3) {
+          return "Thỉnh thoảng bạn vẫn có những ngày bị đuối sức, mệt mỏi hoặc khó khởi động vào buổi sáng. Hãy xem lại giờ ngủ, chất lượng bữa sáng và mức độ làm việc quá sức.";
+        }
+        return "Cơ thể bạn đang dễ mệt hoặc hụt năng lượng rõ rệt trong ngày. Bạn nên ưu tiên giấc ngủ, dinh dưỡng cơ bản và cân nhắc kiểm tra sức khỏe tổng quát nếu tình trạng kéo dài.";
+
+      case 2: // Giấc ngủ
+        if (avg >= 4) {
+          return "Giấc ngủ của bạn đang khá tốt: dễ ngủ, ít thức giấc giữa đêm và thường dậy trong trạng thái tỉnh táo. Đây là dấu hiệu thần kinh – nội tiết – nhịp sinh học đang điều hoà ổn.";
+        }
+        if (avg >= 3) {
+          return "Đôi khi bạn vẫn khó ngủ, trằn trọc hoặc thức giấc giữa đêm. Hãy thử giảm dùng màn hình trước khi ngủ, hạn chế caffeine sau buổi chiều và tạo lịch ngủ đều đặn hơn.";
+        }
+        return "Giấc ngủ của bạn đang gặp nhiều vấn đề: khó ngủ, hay thức giấc hoặc dậy mệt. Nếu tình trạng kéo dài, bạn nên trao đổi với bác sĩ để được tư vấn cụ thể.";
+
+      case 3: // Cân nặng & vòng eo
+        if (avg >= 4) {
+          return "Cân nặng và vòng eo của bạn khá ổn định, không biến động thất thường. Đây là tín hiệu tốt cho sự cân bằng của insulin, cortisol và tuyến giáp.";
+        }
+        if (avg >= 3) {
+          return "Cân nặng hoặc vòng eo có lúc chưa ổn định, nhưng chưa đến mức báo động. Hãy chú ý hơn đến chế độ ăn, giấc ngủ và mức độ vận động hàng ngày.";
+        }
+        return "Cân nặng hoặc vòng eo của bạn thay đổi bất thường trong thời gian gần đây. Bạn nên xem lại khẩu phần ăn, mức độ vận động và cân nhắc đi kiểm tra nếu thấy thay đổi quá nhanh.";
+
+      case 4: // Da & móng
+        if (avg >= 4) {
+          return "Da và móng của bạn nhìn chung hồng hào, khoẻ khoắn. Đây là dấu hiệu khí huyết, tuần hoàn và dinh dưỡng tế bào đang khá tốt.";
+        }
+        if (avg >= 3) {
+          return "Da hoặc móng của bạn có những giai đoạn xỉn màu, khô, dễ gãy. Điều này có thể liên quan đến thiếu ngủ, stress hoặc chế độ dinh dưỡng chưa tối ưu.";
+        }
+        return "Da xỉn màu, móng yếu hoặc thay đổi bất thường kéo dài là tín hiệu nên xem lại dinh dưỡng, lối sống và chủ động kiểm tra sức khỏe (gan, thận, thiếu máu…) khi cần.";
+
+      case 5: // Cảm xúc & tinh thần
+        if (avg >= 4) {
+          return "Cảm xúc của bạn tương đối ổn định, ít cáu gắt và có khả năng lấy lại bình tĩnh sau stress. Đây là dấu hiệu hệ thần kinh và hormon stress đang được kiểm soát tốt.";
+        }
+        if (avg >= 3) {
+          return "Bạn vẫn đối mặt với stress và có những lúc cảm xúc bị kéo xuống, nhưng ở mức chấp nhận được. Hãy thêm các thói quen hỗ trợ như thiền, yoga, đi bộ hoặc viết nhật ký.";
+        }
+        return "Cảm xúc của bạn dễ bị dao động mạnh, lo âu hoặc căng thẳng kéo dài. Nếu điều này ảnh hưởng nhiều đến cuộc sống, bạn nên ưu tiên chăm sóc sức khỏe tinh thần và cân nhắc tìm sự hỗ trợ từ chuyên gia.";
+
+      case 6: // Tiêu hoá
+        if (avg >= 4) {
+          return "Hệ tiêu hoá của bạn đang hoạt động khá tốt: ít đầy bụng, ít rối loạn. Đây là nền tảng quan trọng vì 70% miễn dịch nằm ở hệ tiêu hoá.";
+        }
+        if (avg >= 3) {
+          return "Bạn đôi khi vẫn gặp vấn đề về tiêu hoá (đầy bụng, táo bón, khó tiêu), nhưng chưa quá nghiêm trọng. Hãy tăng rau xanh, chất xơ, uống đủ nước và vận động đều.";
+        }
+        return "Các vấn đề tiêu hoá như đầy bụng, táo bón hoặc rối loạn kéo dài là tín hiệu cần được quan tâm. Nếu không cải thiện với điều chỉnh lối sống, bạn nên đi khám để kiểm tra kỹ hơn.";
+
+      case 7: // Miễn dịch & hồi phục
+        if (avg >= 4) {
+          return "Bạn ít ốm vặt và thường hồi phục khá nhanh khi mệt hoặc bị cảm. Đây là dấu hiệu hệ miễn dịch đang làm việc hiệu quả.";
+        }
+        if (avg >= 3) {
+          return "Thỉnh thoảng bạn vẫn hay cảm nhẹ hoặc mệt khi thời tiết thay đổi. Hãy chú ý ngủ đủ giấc, ăn uống lành mạnh và vận động điều độ để nâng sức đề kháng.";
+        }
+        return "Bạn khá dễ ốm vặt hoặc hồi phục chậm sau khi bị bệnh. Nên xem lại thói quen sinh hoạt, tăng cường dinh dưỡng và cân nhắc gặp bác sĩ nếu tình trạng này kéo dài.";
+    }
+  }
+
+  function calculateTestResult() {
+    let totalSum = 0;
+    let totalCount = 0;
+
+    const groupSums = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 };
+    const groupCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 };
+
+    QUESTIONS.forEach(q => {
+      const value = answers[q.id];
+      if (!value) return;
+      totalSum += value;
+      totalCount += 1;
+      groupSums[q.groupId] += value;
+      groupCounts[q.groupId] += 1;
+    });
+
+    const overallAverage = totalCount > 0 ? totalSum / totalCount : 0;
+    const overall = classifyOverall(parseFloat(overallAverage.toFixed(2)));
+
+    const groups = Object.keys(groupSums).map(key => {
+      const groupId = parseInt(key, 10);
+      const sum = groupSums[groupId];
+      const count = groupCounts[groupId] || 1;
+      const avg = sum / count;
+      const { status, statusLabel } = classifyGroupAverage(avg);
+      const message = getGroupMessage(groupId, avg);
+
+      return {
+        groupId,
+        rawSum: sum,
+        questionCount: count,
+        average: parseFloat(avg.toFixed(2)),
+        status,
+        statusLabel,
+        message,
+      };
+    }).sort((a, b) => a.groupId - b.groupId);
+
+    return { overall, groups };
+  }
+
+  function renderResult() {
+    const { overall, groups } = resultCache;
+    document.getElementById("overall-score").textContent =
+      overall.average.toFixed(2) + " / 5";
+    document.getElementById("overall-title").textContent = overall.title;
+    document.getElementById("overall-message").textContent = overall.message;
+
+    const groupsList = document.getElementById("groups-list");
+    groupsList.innerHTML = "";
+    groups.forEach(g => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const header = document.createElement("div");
+      header.className = "group-header";
+
+      const left = document.createElement("div");
+      left.innerHTML = `<div class="group-name">${GROUP_NAMES[g.groupId]}</div>`;
+
+      const right = document.createElement("div");
+      right.className = "group-score";
+      right.textContent = `${g.average.toFixed(2)} / 5`;
+
+      header.appendChild(left);
+      header.appendChild(right);
+
+      const chip = document.createElement("div");
+      chip.className = "chip " + g.status;
+      chip.textContent = g.statusLabel;
+
+      card.appendChild(header);
+      card.appendChild(chip);
+      groupsList.appendChild(card);
+    });
+  }
+
+  function renderDetail() {
+    const { groups } = resultCache;
+    const container = document.getElementById("detail-list");
+    container.innerHTML = "";
+
+    groups.forEach(g => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const header = document.createElement("div");
+      header.className = "group-header";
+
+      const left = document.createElement("div");
+      left.className = "group-name";
+      left.textContent = GROUP_NAMES[g.groupId];
+
+      const right = document.createElement("div");
+      right.className = "group-score";
+      right.textContent = `${g.average.toFixed(2)} / 5`;
+
+      header.appendChild(left);
+      header.appendChild(right);
+
+      const chip = document.createElement("div");
+      chip.className = "chip " + g.status;
+      chip.textContent = g.statusLabel;
+
+      const msg = document.createElement("div");
+      msg.className = "card-body";
+      msg.style.marginTop = "6px";
+      msg.textContent = g.message;
+
+      card.appendChild(header);
+      card.appendChild(chip);
+      card.appendChild(msg);
+      container.appendChild(card);
+    });
+  }
+
+  // ---------- EVENT BINDING ----------
+
+  document.getElementById("btn-start-quiz").addEventListener("click", () => {
+    currentIndex = 0;
+    answers = {};
+    renderQuestion();
+    showScreen("screen-quiz");
+  });
+
+  document.getElementById("btn-view-signs").addEventListener("click", () => {
+    showScreen("screen-signs");
+  });
+
+  document.getElementById("btn-signs-start").addEventListener("click", () => {
+    currentIndex = 0;
+    answers = {};
+    renderQuestion();
+    showScreen("screen-quiz");
+  });
+
+  document.getElementById("btn-prev").addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion();
+    }
+  });
+
+  document.getElementById("btn-next").addEventListener("click", () => {
+    const q = QUESTIONS[currentIndex];
+    const selected = document.querySelector('input[name="answer"]:checked');
+    if (!selected) {
+      showToast("Hãy chọn một mức độ phù hợp trước khi tiếp tục.");
+      return;
+    }
+    answers[q.id] = parseInt(selected.value, 10);
+
+    if (currentIndex < QUESTIONS.length - 1) {
+      currentIndex++;
+      renderQuestion();
+    } else {
+      // done
+      resultCache = calculateTestResult();
+      renderResult();
+      showScreen("screen-result");
+    }
+  });
+
+  document.getElementById("btn-view-details").addEventListener("click", () => {
+    renderDetail();
+    showScreen("screen-detail");
+  });
+
+  document.getElementById("btn-restart").addEventListener("click", () => {
+    currentIndex = 0;
+    answers = {};
+    renderQuestion();
+    showScreen("screen-quiz");
+  });
+
+  document.getElementById("btn-detail-back").addEventListener("click", () => {
+    showScreen("screen-result");
+  });
+
+  document.getElementById("btn-detail-home").addEventListener("click", () => {
+    showScreen("screen-intro");
+  });
+
+  document.getElementById("back-btn").addEventListener("click", () => {
+    const screens = {
+      "screen-signs": "screen-intro",
+      "screen-quiz": "screen-intro",
+      "screen-result": "screen-intro",
+      "screen-detail": "screen-result",
+    };
+    const current = Object.entries(screens).find(
+      ([id]) => document.getElementById(id).style.display === "block"
+    );
+    if (current) {
+      showScreen(current[1]);
+    } else {
+      showScreen("screen-intro");
+    }
+  });
+
+  // Khởi động
+  showScreen("screen-intro");
+</script>
+</body>
+</html>
+
